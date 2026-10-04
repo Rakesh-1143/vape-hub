@@ -1,4 +1,32 @@
 import { expect, test } from "@playwright/test";
+test("3D controls support inspection, rotation and ambient pause", async ({ page }, testInfo) => {
+  const errors: string[] = [];
+  page.on("pageerror", error => errors.push(error.message));
+  await page.goto("/");
+  await expect(page.getByRole("button", { name: "Rotate device" })).toBeEnabled();
+  if (process.env.CI) {
+    // Capture after the 1.5-second entrance, for review of actual rendered geometry.
+    await page.waitForTimeout(1800);
+    await page.screenshot({ path: testInfo.outputPath("studio-hero.png"), animations: "disabled" });
+  }
+  await page.getByRole("button", { name: "Inspect design", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Assemble design", exact: true })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator(".product-stage")).toHaveAttribute("data-view", "exploded");
+  if (process.env.CI) {
+    await page.waitForTimeout(1600);
+    await page.screenshot({ path: testInfo.outputPath("studio-inspection.png"), animations: "disabled" });
+  }
+  await page.getByRole("button", { name: "Rotate device" }).focus();
+  await page.keyboard.press("Enter");
+  await page.getByRole("button", { name: "Pause ambient motion" }).click();
+  await expect(page.getByRole("button", { name: "Resume ambient motion" })).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("button", { name: "Resume ambient motion" }).click();
+  await page.getByRole("button", { name: "Assemble design", exact: true }).click();
+  await expect(page.locator(".product-stage")).toHaveAttribute("data-view", "assembled");
+  await page.getByRole("button", { name: "Next device" }).click();
+  await expect(page.getByRole("heading", { name: "Midnight", exact: true })).toBeVisible();
+  expect(errors).toEqual([]);
+});
 test("scroll choreography preserves selection and adapts to mobile", async ({
   page,
 }, testInfo) => {

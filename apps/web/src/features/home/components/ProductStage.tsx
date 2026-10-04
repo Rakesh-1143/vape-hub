@@ -30,12 +30,20 @@ export function ProductStage({
   reducedMotion,
   mobile,
   progress,
+  yaw,
+  inspect,
+  paused,
+  onStatus,
 }: {
   device: FeaturedDevice;
   index: number;
   reducedMotion: boolean;
   mobile: boolean;
   progress: React.MutableRefObject<number>;
+  yaw: React.MutableRefObject<number>;
+  inspect: boolean;
+  paused: boolean;
+  onStatus?: (ready: boolean) => void;
 }) {
   const host = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(true);
@@ -58,15 +66,17 @@ export function ProductStage({
     };
   }, []);
   const enabled = !reducedMotion && !failed;
+  useEffect(() => {
+    onStatus?.(ready && enabled);
+  }, [ready, enabled, onStatus]);
   return (
     <div
       className="product-stage"
       ref={host}
-      aria-label={`${device.finish} concept device presentation`}
+      aria-label={`${device.finish} ${inspect ? "exploded" : "assembled"} concept device presentation`}
       role="img"
+      data-view={inspect ? "exploded" : "assembled"}
     >
-      <div className="stage-ring ring-one" />
-      <div className="stage-ring ring-two" />
       <div className="stage-floor" />
       <img
         className={`stage-poster ${ready && enabled ? "is-hidden" : ""}`}
@@ -81,6 +91,9 @@ export function ProductStage({
               mobile={mobile}
               running={visible && tabVisible}
               progress={progress}
+              yaw={yaw}
+              inspect={inspect}
+              paused={paused}
               onReady={() => setReady(true)}
               onFailure={() => setFailed(true)}
             />

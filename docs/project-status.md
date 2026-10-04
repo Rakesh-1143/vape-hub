@@ -3,6 +3,7 @@
 Updated: 2026-10-04. Phase: repository foundation and animated homepage.
 
 ## Implemented
+- Current revision: Motion for React installed; CinematicHero, custom softbox environment, brushed/clear-coated original models, concept part inspection, rotate and ambient-pause controls. Source research in design-research.md. Final validation/deployment for this revision is pending below; earlier pass results refer to the previous deployed revision.
 - npm TypeScript monorepo: React/Vite storefront, shared contracts, documented Express and AWS boundaries.
 - Homepage with original three-device 3D geometry, studio reflections, floating movement, explicit selection, coordinated copy/color, and scroll rotation.
 - Lazy scene, SVG posters, reduced-motion presentation, offscreen/hidden-tab pausing, renderer failure boundary, and graphics-context cleanup.

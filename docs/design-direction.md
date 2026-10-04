@@ -10,6 +10,8 @@ Desktop: left-aligned headline with a floating three-device stage to the right, 
 
 No automatic cycling. Selection coordinates metadata, interpolated carousel positions, turn-in rotation and accent lighting. A short desktop pin coordinates camera distance, device scale/rotation and a detail-copy reveal using one shared progress ref. Mobile has no pin and uses one device. Native scrolling remains intact. Reduced motion uses static posters and readable content. Pause offscreen/hidden rendering and revert timelines on cleanup.
 
+The studio revision uses a 1,100px desktop scroll sequence: introduction, surface detail, then a separated construction concept. Motion for React handles HTML copy transitions; GSAP handles scene coordination. Manual rotate, inspect/assemble and ambient-pause controls supplement scroll interaction. Metallic trims, a brushed finish and custom softbox reflections supply depth without remote models or postprocessing. Construction geometry is an original design study, not a real product specification. Research and the consciously chosen design direction are recorded in `design-research.md`.
+
 ## Asset policy
 
 The three devices are original unbranded geometry and SVG posters. They are not real inventory. The store sign is an original graphic, not a store photograph. Obtain clear front/back/side photos, dimensions, licensed artwork and client approval before final branded models. Optimize future GLBs and supply posters for every model. Asset integration notes: `apps/web/public/assets/models/README.md`.

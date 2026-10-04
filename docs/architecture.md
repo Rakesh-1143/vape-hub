@@ -6,6 +6,8 @@ npm workspaces: `@vape-hub/web` and `@vape-hub/contracts`. React + Vite serves t
 
 The home feature owns selection, concept metadata, and GSAP scroll coordination. `ProductStage` lazily imports the Three.js scene through React Three Fiber, retains a poster until ready, and catches renderer failures. Media preferences control reduced motion and mobile layout. IntersectionObserver and document visibility pause the frame loop. Three.js declarative resources are disposed by React Three Fiber on unmount; GSAP context reversion removes timelines and ScrollTriggers.
 
+`CinematicHero` coordinates the studio. Motion for React animates HTML entrance and finish copy using lazy DOM features; GSAP owns the shared scroll progress and 3D selection poses. Three.js renders original geometry with physical clearcoat, a procedural brushed normal texture, and a one-time PMREM softbox environment. Shared model materials, generated textures, rounded geometry and environment targets have explicit cleanup. Rotate, inspect/assemble and ambient pause use accessible HTML buttons. Ambient pause preserves user-requested selection and inspection transitions.
+
 Devices are reusable procedural geometry, avoiding model downloads for the initial concepts. SVG posters provide a lightweight independent fallback. Product selection does not trigger backend requests. Category tiles reveal real category guidance within the homepage.
 
 ## Next boundaries

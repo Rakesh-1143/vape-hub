@@ -1,131 +1,18 @@
-import {
-  ArrowDown,
-  ArrowLeft,
-  ArrowRight,
-  ArrowUpRight,
-  MapPin,
-  Phone,
-  Plus,
-} from "lucide-react";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ArrowUpRight, MapPin, Phone, Plus } from "lucide-react";
+import { useState, type CSSProperties } from "react";
+
 import { Header } from "../../components/layout/Header";
 import { Brand } from "../../components/ui/Brand";
-import { useMediaQuery } from "../../lib/useMediaQuery";
+
 import { categories, devices } from "./data/devices";
-import { ProductStage } from "./components/ProductStage";
-gsap.registerPlugin(ScrollTrigger);
+import { CinematicHero } from "./components/CinematicHero";
+
 const directions =
   "https://www.google.com/maps/search/?api=1&query=1281+West+Pueblo+Boulevard+Pueblo+CO+81004";
 export function HomePage() {
   const [index, setIndex] = useState(0);
   const [category, setCategory] = useState<string | null>(null);
-  const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
-  const mobile = useMediaQuery("(max-width: 767px)");
-  const hero = useRef<HTMLElement>(null);
-  const text = useRef<HTMLDivElement>(null);
-  const progress = useRef(0);
   const device = devices[index];
-  useEffect(() => {
-    if (reduced || !hero.current) return;
-    const ctx = gsap.context(() => {
-      gsap.from(".hero-intro > *", {
-        y: 36,
-        opacity: 0.5,
-        duration: 1,
-        stagger: 0.12,
-        ease: "power3.out",
-      });
-      gsap.from(".hero-bottom", {
-        y: 20,
-        opacity: 0.6,
-        duration: 0.8,
-        delay: 0.6,
-      });
-      gsap.from(".stage-word", {
-        scale: 1.15,
-        opacity: 0,
-        duration: 1.8,
-        ease: "power3.out",
-      });
-    }, hero);
-    return () => ctx.revert();
-  }, [reduced]);
-  useEffect(() => {
-    if (reduced || !text.current) return;
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        text.current,
-        { opacity: 0, y: 24, filter: "blur(6px)" },
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 0.7,
-          ease: "power3.out",
-        },
-      );
-    }, text);
-    return () => ctx.revert();
-  }, [index, reduced]);
-  useEffect(() => {
-    if (reduced || !hero.current) {
-      progress.current = 0;
-      return;
-    }
-    const ctx = gsap.context(() => {
-      const sequence = gsap.timeline({
-        scrollTrigger: {
-          trigger: hero.current,
-          start: "top top",
-          end: mobile ? "bottom center" : "+=700",
-          scrub: 0.8,
-          pin: !mobile,
-          invalidateOnRefresh: true,
-        },
-      });
-      sequence.to(
-        progress,
-        {
-          current: 1,
-          ease: "none",
-          duration: 1,
-        },
-        0,
-      );
-      if (!mobile) {
-        sequence
-          .to(".hero-intro", { y: -65, autoAlpha: 0, duration: 0.25 }, 0.08)
-          .fromTo(
-            ".hero-story",
-            { y: 65, autoAlpha: 0 },
-            { y: 0, autoAlpha: 1, duration: 0.25 },
-            0.3,
-          )
-          .to(".stage-word", { xPercent: -12, opacity: 0.03, duration: 0.8 }, 0)
-          .to(".stage-floor", { scale: 1.5, opacity: 0.7, duration: 0.8 }, 0);
-      }
-      gsap.fromTo(
-        ".feature-copy",
-        { opacity: 0.5, y: mobile ? 10 : 25 },
-        {
-          opacity: 1,
-          y: 0,
-          scrollTrigger: {
-            trigger: ".feature-section",
-            start: "top 85%",
-            end: "top 45%",
-            scrub: true,
-          },
-        },
-      );
-    });
-    return () => {
-      ctx.revert();
-      progress.current = 0;
-    };
-  }, [reduced, mobile]);
   const select = (n: number) => setIndex((n + devices.length) % devices.length);
   return (
     <div id="top" style={{ "--accent": device.accent } as CSSProperties}>
@@ -140,102 +27,7 @@ export function HomePage() {
       </div>
       <Header />
       <main id="main">
-        <section className="hero" ref={hero} aria-labelledby="hero-title">
-          <div className="stage-word" aria-hidden="true">
-            {device.name}
-          </div>
-          <div className="hero-story">
-            <p className="location-note">A closer look</p>
-            <h2>
-              Every angle.
-              <br />
-              Every detail.
-            </h2>
-            <p>
-              Explore the form, finish and feel.
-              <br />
-              Then find your setup with our team.
-            </p>
-            <a className="text-link" href="#visit">
-              Visit the store <ArrowUpRight size={17} />
-            </a>
-          </div>
-          <div className="hero-intro">
-            <p className="location-note">
-              <span /> Your neighborhood vape shop
-            </p>
-            <h1 id="hero-title">
-              Find your
-              <br />
-              next setup.
-            </h1>
-            <p className="hero-description">
-              Good gear. Real guidance.
-              <br />
-              Find your fit at The Vape Hub.
-            </p>
-            <a className="button button-light" href="#collection">
-              Explore the collection <ArrowUpRight size={18} />
-            </a>
-          </div>
-          <ProductStage
-            device={device}
-            index={index}
-            reducedMotion={reduced}
-            mobile={mobile}
-            progress={progress}
-          />
-          <div className="hero-product" ref={text}>
-            <span className="concept-label">Device concept</span>
-            <h2>{device.name}</h2>
-            <p>{device.description}</p>
-          </div>
-          <div className="hero-bottom">
-            <a className="scroll-cue" href="#details">
-              <span className="circle-icon">
-                <ArrowDown size={17} />
-              </span>{" "}
-              A closer look
-            </a>
-            <div
-              className="product-controls"
-              aria-label="Choose a concept device"
-            >
-              <button
-                className="circle-icon"
-                aria-label="Previous device"
-                onClick={() => select(index - 1)}
-              >
-                <ArrowLeft size={18} />
-              </button>
-              <div className="product-dots">
-                {devices.map((d, i) => (
-                  <button
-                    key={d.id}
-                    aria-label={`Show ${d.name} device`}
-                    aria-pressed={i === index}
-                    className={i === index ? "device-dot active" : "device-dot"}
-                    onClick={() => select(i)}
-                    style={{ "--dot": d.accent } as CSSProperties}
-                  />
-                ))}
-              </div>
-              <button
-                className="circle-icon"
-                aria-label="Next device"
-                onClick={() => select(index + 1)}
-              >
-                <ArrowRight size={18} />
-              </button>
-              <span className="device-count">
-                {String(index + 1).padStart(2, "0")} / 03
-              </span>
-            </div>
-          </div>
-          <div className="sr-only" aria-live="polite">
-            Selected concept: {device.name}, {device.finish}
-          </div>
-        </section>
+        <CinematicHero index={index} select={select} />
         <section id="details" className="feature-section">
           <div>
             <p className="section-note">The details make the difference</p>

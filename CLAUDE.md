@@ -52,6 +52,8 @@ Use Node 24 LTS and npm. On PowerShell, `npm.cmd` avoids script execution-policy
 
 ## Documentation
 
+Motion for React is now installed as the `motion` dependency. `CinematicHero` owns HTML motion and controls; `DeviceScene` coordinates the camera and product paths; `DeviceModel` owns original geometry/materials and part separation. Use LazyMotion/m for DOM animation, GSAP for scroll coordination, and R3F for graphics. Do not animate the same property with two libraries. See docs/design-research.md. UI UX Pro Max is installed locally for Codex; teammates can install its official Claude plugin using the upstream marketplace instructions.
+
 - Setup: `README.md`
 - Architecture: `docs/architecture.md`
 - Design: `docs/design-direction.md`

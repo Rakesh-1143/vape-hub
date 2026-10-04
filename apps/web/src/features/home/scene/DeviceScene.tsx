@@ -1,300 +1,304 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, type MutableRefObject } from "react";
-import { Group, MathUtils, PMREMGenerator } from "three";
 import gsap from "gsap";
-import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
-import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import {
+  ACESFilmicToneMapping,
+  BoxGeometry,
+  Color,
+  DirectionalLight,
+  Group,
+  MathUtils,
+  Mesh,
+  MeshBasicMaterial,
+  PMREMGenerator,
+  PointLight,
+  Scene,
+  SRGBColorSpace,
+} from "three";
+import { DeviceModel } from "./DeviceModel";
 import { devices } from "../data/devices";
 
-function RoundedPart({
-  size,
-  position = [0, 0, 0],
-  color,
-  metalness = 0.8,
-  roughness = 0.27,
-  radius = 0.055,
-}: {
-  size: [number, number, number];
-  position?: [number, number, number];
-  color: string;
-  metalness?: number;
-  roughness?: number;
-  radius?: number;
-}) {
-  const [width, height, depth] = size;
-  const geometry = useMemo(
-    () => new RoundedBoxGeometry(width, height, depth, 3, radius),
-    [width, height, depth, radius],
-  );
-  useEffect(() => () => geometry.dispose(), [geometry]);
-  return (
-    <mesh geometry={geometry} position={position}>
-      <meshStandardMaterial
-        color={color}
-        metalness={metalness}
-        roughness={roughness}
-      />
-    </mesh>
-  );
-}
-function StudioEnvironment() {
+function SoftboxEnvironment() {
   const { gl, scene } = useThree();
   useEffect(() => {
+    const studio = new Scene();
+    studio.background = new Color("#0b0e13");
+    const boxes: Mesh[] = [];
+    const light = (
+      position: [number, number, number],
+      size: [number, number, number],
+      color: string,
+      intensity: number,
+    ) => {
+      const panel = new Mesh(
+        new BoxGeometry(...size),
+        new MeshBasicMaterial({
+          color: new Color(color).multiplyScalar(intensity),
+        }),
+      );
+      panel.position.set(...position);
+      panel.lookAt(0, 0, 0);
+      studio.add(panel);
+      boxes.push(panel);
+    };
+    light([-4, 2, 3], [2, 7, 0.05], "#f2eee8", 5);
+    light([4, 1, 2], [1, 6, 0.05], "#c7d7f5", 3);
+    light([0, 6, 0], [5, 2, 0.05], "#ffffff", 4);
+    light([1, 1, -4], [2, 4, 0.05], "#dfc6e2", 3);
     const generator = new PMREMGenerator(gl);
-    const room = new RoomEnvironment();
-    const target = generator.fromScene(room, 0.04);
+    const target = generator.fromScene(studio, 0.08);
     const previous = scene.environment;
     scene.environment = target.texture;
     return () => {
       scene.environment = previous;
       target.dispose();
-      room.dispose();
       generator.dispose();
+      boxes.forEach((box) => {
+        box.geometry.dispose();
+        (box.material as MeshBasicMaterial).dispose();
+      });
     };
   }, [gl, scene]);
   return null;
 }
-function Device({
+function StudioLighting({ activeIndex }: { activeIndex: number }) {
+  const rim = useRef<DirectionalLight>(null);
+  const pool = useRef<PointLight>(null);
+  const target = useMemo(() => new Color(), []);
+  useFrame((_, delta) => {
+    target.set(devices[activeIndex].accent);
+    const alpha = 1 - Math.exp(-Math.min(delta, 0.05) * 4);
+    rim.current?.color.lerp(target, alpha);
+    pool.current?.color.lerp(target, alpha);
+  });
+  return (
+    <>
+      <ambientLight intensity={0.25} />
+      <directionalLight position={[-3, 5, 5]} intensity={2.4} color="#f6f0e8" />
+      <directionalLight position={[4, 2, -2]} intensity={3} ref={rim} />
+      <pointLight
+        position={[0, -2, 3]}
+        intensity={8}
+        distance={12}
+        ref={pool}
+      />
+    </>
+  );
+}
+function Product({
   index,
   activeIndex,
   mobile,
   progress,
+  yaw,
+  inspect,
+  paused,
 }: {
   index: number;
   activeIndex: number;
   mobile: boolean;
   progress: MutableRefObject<number>;
+  yaw: MutableRefObject<number>;
+  inspect: boolean;
+  paused: boolean;
 }) {
   const group = useRef<Group>(null);
   const pose = useRef({
-    angle: (index - activeIndex) * ((Math.PI * 2) / 3),
-    turn: 0,
+    angle: ((index - activeIndex) * Math.PI * 2) / 3,
     enter: 0,
+    turn: 0,
   });
-  const device = devices[index];
+  const time = useRef(0);
+  const active = activeIndex === index;
   useEffect(() => {
-    const tween = gsap.to(pose.current, {
+    const enter = gsap.to(pose.current, {
       enter: 1,
-      duration: 1.6,
-      delay: index * 0.13,
+      duration: 1.5,
+      delay: index * 0.12,
       ease: "power3.out",
     });
     return () => {
-      tween.kill();
+      enter.kill();
     };
   }, [index]);
   useEffect(() => {
-    const target = (index - activeIndex) * ((Math.PI * 2) / 3);
-    const current = pose.current.angle;
+    const target = ((index - activeIndex) * Math.PI * 2) / 3;
     const nearest =
-      current +
-      Math.atan2(Math.sin(target - current), Math.cos(target - current));
-    const timeline = gsap.timeline();
-    timeline
+      pose.current.angle +
+      Math.atan2(
+        Math.sin(target - pose.current.angle),
+        Math.cos(target - pose.current.angle),
+      );
+    const transition = gsap
+      .timeline()
       .to(
         pose.current,
-        { angle: nearest, duration: 1.2, ease: "power3.inOut" },
+        { angle: nearest, duration: 1.05, ease: "power3.inOut" },
         0,
       )
       .to(
         pose.current,
         {
-          turn: index === activeIndex ? Math.PI * 2 : 0,
-          duration: 1.35,
+          turn: active ? Math.PI * 2 : 0,
+          duration: 1.25,
           ease: "power3.inOut",
         },
         0,
       );
     return () => {
-      timeline.kill();
+      transition.kill();
     };
-  }, [activeIndex, index]);
+  }, [index, activeIndex, active]);
   useFrame((state, delta) => {
     const g = group.current;
     if (!g) return;
-    const active = index === activeIndex;
-    const t = progress.current;
-    const step = Math.min(delta, 0.05);
+    const dt = Math.min(delta, 0.05);
+    if (!paused) time.current += dt;
+    const t = mobile ? progress.current * 0.28 : progress.current;
+    const close = MathUtils.smoothstep(t, 0.1, 0.55);
+    const explode = Math.max(
+      inspect ? 1 : 0,
+      MathUtils.smoothstep(t, 0.68, 0.94),
+    );
     const angle = pose.current.angle;
     const front = (Math.cos(angle) + 1) / 2;
-    const reveal = pose.current.enter;
-    const close = MathUtils.smoothstep(t, 0.12, 0.65);
-    const exit = MathUtils.smoothstep(t, 0.75, 1);
-    const pointer = state.pointer;
     g.visible = !mobile || active;
-    g.position.x = MathUtils.damp(
-      g.position.x,
-      Math.sin(angle) * 2.75 * (1 - close * 0.15) +
-        (active ? close * -0.6 : close * Math.sign(Math.sin(angle)) * 1.5),
-      7,
-      step,
-    );
+    const x = mobile
+      ? Math.sin(angle) * 2.3
+      : Math.sin(angle) * 2.7 * (1 + close * 0.8) +
+        (active ? close * 1.15 : 0);
+    g.position.x = MathUtils.damp(g.position.x, x, 7, dt);
     g.position.y = MathUtils.damp(
       g.position.y,
-      (front - 0.6) * 0.4 +
-        (1 - reveal) * -4 +
-        exit * 1.1 +
-        Math.sin(state.clock.elapsedTime * 0.75 + index * 2) * 0.12,
-      5,
-      step,
+      -0.16 +
+        (1 - front) * 0.4 +
+        (1 - pose.current.enter) * -3.5 +
+        Math.sin(time.current * 0.65 + index * 1.7) * 0.1,
+      6,
+      dt,
     );
     g.position.z = MathUtils.damp(
       g.position.z,
-      Math.cos(angle) * 1.05 - close * (active ? 0 : 3),
-      6,
-      step,
+      Math.cos(angle) * 1.25 - close * (active ? 0 : 3),
+      7,
+      dt,
     );
     const scale =
-      (0.62 + front * 0.48 + (active ? close * 0.16 : -close * 0.22)) *
-      (0.65 + reveal * 0.35);
-    g.scale.setScalar(MathUtils.damp(g.scale.x, scale, 6, step));
+      (mobile ? 1.16 : 0.77 + front * 0.62) +
+      (active ? close * 0.12 - explode * 0.4 : -close * 0.16);
+    g.scale.setScalar(
+      MathUtils.damp(
+        g.scale.x,
+        scale * (0.7 + pose.current.enter * 0.3),
+        6,
+        dt,
+      ),
+    );
     g.rotation.y = MathUtils.damp(
       g.rotation.y,
-      angle * -0.2 +
-        pose.current.turn -
-        0.32 +
-        t * Math.PI * 1.6 +
-        pointer.x * 0.16,
-      5,
-      step,
+      -0.32 -
+        Math.sin(angle) * 0.6 +
+        pose.current.turn +
+        (active ? t * Math.PI * 1.4 + yaw.current : 0) +
+        state.pointer.x * 0.1,
+      7,
+      dt,
     );
     g.rotation.z = MathUtils.damp(
       g.rotation.z,
-      Math.sin(angle) * -0.3 -
-        0.13 +
-        Math.sin(state.clock.elapsedTime * 0.6 + index) * 0.035 +
-        close * 0.32,
-      5,
-      step,
+      -0.28 +
+        Math.sin(angle) * -0.22 +
+        close * 0.43 -
+        explode * 0.13 +
+        Math.sin(time.current * 0.48 + index) * 0.035,
+      6,
+      dt,
     );
     g.rotation.x = MathUtils.damp(
       g.rotation.x,
-      close * -0.25 + pointer.y * 0.08,
-      5,
-      step,
+      0.06 - close * 0.14 + state.pointer.y * 0.07,
+      6,
+      dt,
     );
   });
   return (
-    <group ref={group} scale={0.8}>
-      <RoundedPart
-        size={[0.79, 2.48, 0.49]}
-        color={device.bodyColor}
-        roughness={0.23}
-        radius={0.12}
+    <group ref={group} scale={0.4}>
+      <DeviceModel
+        index={index}
+        active={active}
+        progress={progress}
+        inspect={inspect}
       />
-      <RoundedPart
-        size={[0.69, 2.19, 0.018]}
-        position={[0, -0.03, 0.247]}
-        color={device.bodyColor}
-        metalness={0.55}
-        roughness={0.32}
-        radius={0.008}
-      />
-      {[-0.36, 0.36].map((x) => (
-        <RoundedPart
-          key={x}
-          size={[0.025, 2.2, 0.035]}
-          position={[x, 0, 0.235]}
-          color="#bdb6c0"
-          radius={0.01}
-          metalness={1}
-          roughness={0.18}
-        />
-      ))}
-      <RoundedPart
-        size={[0.81, 0.22, 0.51]}
-        position={[0, 1.18, 0]}
-        color="#45464a"
-        roughness={0.2}
-        radius={0.04}
-      />
-      <RoundedPart
-        size={[0.46, 0.4, 0.27]}
-        position={[0, 1.46, 0]}
-        color="#191b1d"
-        metalness={0.15}
-        roughness={0.19}
-      />
-      <RoundedPart
-        size={[0.8, 0.13, 0.5]}
-        position={[0, -1.19, 0]}
-        color="#969696"
-        metalness={1}
-        radius={0.035}
-      />
-      <RoundedPart
-        size={[0.26, 0.59, 0.025]}
-        position={[0, 0.33, 0.251]}
-        color="#10151a"
-        metalness={0.1}
-        roughness={0.14}
-        radius={0.009}
-      />
-      <mesh position={[0, 0.32, 0.27]}>
-        <boxGeometry args={[0.13, 0.025, 0.008]} />
-        <meshBasicMaterial color={device.accent} />
-      </mesh>
-      {[0, 1, 2, 3].map((bar) => (
-        <mesh key={bar} position={[-0.074 + bar * 0.048, 0.47, 0.271]}>
-          <boxGeometry args={[0.028, 0.018 + bar * 0.015, 0.006]} />
-          <meshBasicMaterial color={device.accent} />
-        </mesh>
-      ))}
-      {[-1, 1].map((side) => (
-        <mesh
-          key={side}
-          position={[side * 0.3, -1.14, 0.258]}
-          rotation={[Math.PI / 2, 0, 0]}
-        >
-          <cylinderGeometry args={[0.017, 0.017, 0.012, 12]} />
-          <meshStandardMaterial color="#202225" metalness={0.8} />
-        </mesh>
-      ))}
-      <mesh position={[0, -0.3, 0.265]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.067, 0.067, 0.025, 24]} />
-        <meshStandardMaterial color="#d4d1cb" metalness={0.9} roughness={0.2} />
-      </mesh>
-      <mesh position={[0, -0.79, 0.257]}>
-        <boxGeometry args={[0.34, 0.015, 0.008]} />
-        <meshStandardMaterial color="#bbb5af" metalness={0.8} />
-      </mesh>
     </group>
   );
 }
-function CameraRig({ progress }: { progress: MutableRefObject<number> }) {
+function CameraRig({
+  mobile,
+  progress,
+}: {
+  mobile: boolean;
+  progress: MutableRefObject<number>;
+}) {
   useFrame((state, delta) => {
-    const close = MathUtils.smoothstep(progress.current, 0.12, 0.65);
+    const dt = Math.min(delta, 0.05);
+    const close = mobile
+      ? 0
+      : MathUtils.smoothstep(progress.current, 0.1, 0.55);
     state.camera.position.z = MathUtils.damp(
       state.camera.position.z,
-      8.1 - close * 0.2,
+      (mobile ? 8.6 : 10) - close * 0.25,
       4,
-      Math.min(delta, 0.05),
+      dt,
     );
     state.camera.position.x = MathUtils.damp(
       state.camera.position.x,
       state.pointer.x * 0.18,
-      3,
-      Math.min(delta, 0.05),
+      4,
+      dt,
     );
-    state.camera.lookAt(0, 0.15, 0);
+    state.camera.lookAt(0, 0.22, 0);
   });
   return null;
 }
-function ContextWatch({ onFailure }: { onFailure: () => void }) {
+function Lifecycle({
+  onReady,
+  onFailure,
+}: {
+  onReady: () => void;
+  onFailure: () => void;
+}) {
   const { gl } = useThree();
+  const frames = useRef(0);
+  useFrame(() => {
+    if (++frames.current === 2) onReady();
+  });
   useEffect(() => {
     const canvas = gl.domElement;
-    const failed = () => onFailure();
-    canvas.addEventListener("webglcontextlost", failed);
-    return () => canvas.removeEventListener("webglcontextlost", failed);
+    const fail = () => onFailure();
+    canvas.addEventListener("webglcontextlost", fail);
+    return () => canvas.removeEventListener("webglcontextlost", fail);
   }, [gl, onFailure]);
   return null;
 }
+function SoftwareRendererQuality() {
+  const { gl, setDpr, size } = useThree();
+  useEffect(() => {
+    const context = gl.getContext();
+    const extension = context.getExtension("WEBGL_debug_renderer_info");
+    const renderer = extension ? String(context.getParameter(extension.UNMASKED_RENDERER_WEBGL)) : "";
+    if (/swiftshader|llvmpipe|software/i.test(renderer)) setDpr(0.75);
+  }, [gl, setDpr, size.width, size.height]);
+  return null;
+}
+
 export default function DeviceScene({
   activeIndex,
   mobile,
   running,
   progress,
+  yaw,
+  inspect,
+  paused,
   onReady,
   onFailure,
 }: {
@@ -302,40 +306,40 @@ export default function DeviceScene({
   mobile: boolean;
   running: boolean;
   progress: MutableRefObject<number>;
+  yaw: MutableRefObject<number>;
+  inspect: boolean;
+  paused: boolean;
   onReady: () => void;
   onFailure: () => void;
 }) {
   return (
     <Canvas
-      camera={{ position: [0, 0.3, 8.1], fov: 38 }}
-      dpr={[1, 1.5]}
+      camera={{ position: [0, 0.45, mobile ? 8.6 : 10], fov: mobile ? 35 : 34 }}
+      dpr={[1, mobile ? 1.25 : 1.5]}
       frameloop={running ? "always" : "never"}
       gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
       fallback={<span className="sr-only">Static device presentation</span>}
-      onCreated={onReady}
+      onCreated={({ gl }) => {
+        gl.toneMapping = ACESFilmicToneMapping;
+        gl.toneMappingExposure = 0.95;
+        gl.outputColorSpace = SRGBColorSpace;
+      }}
     >
-      <StudioEnvironment />
-      <ContextWatch onFailure={onFailure} />
-      <CameraRig progress={progress} />
-      <ambientLight intensity={0.7} />
-      <directionalLight position={[3, 5, 4]} intensity={2} color="#f5e9de" />
-      <directionalLight
-        position={[-4, 1, 3]}
-        intensity={2}
-        color={devices[activeIndex].accent}
-      />
-      <pointLight
-        position={[0, -3, 2]}
-        intensity={6}
-        color={devices[activeIndex].accent}
-      />
-      {devices.map((d, index) => (
-        <Device
-          key={d.id}
+      <SoftboxEnvironment />
+      <SoftwareRendererQuality />
+      <StudioLighting activeIndex={activeIndex} />
+      <CameraRig mobile={mobile} progress={progress} />
+      <Lifecycle onReady={onReady} onFailure={onFailure} />
+      {devices.map((device, index) => (
+        <Product
+          key={device.id}
           index={index}
           activeIndex={activeIndex}
           mobile={mobile}
           progress={progress}
+          yaw={yaw}
+          inspect={inspect}
+          paused={paused}
         />
       ))}
     </Canvas>
