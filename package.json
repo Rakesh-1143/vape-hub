@@ -1,0 +1,21 @@
+{
+  "name": "vape-hub",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/web",
+    "packages/contracts"
+  ],
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "dev": "npm run dev --workspace @vape-hub/web",
+    "build": "npm run build --workspace @vape-hub/web",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspace @vape-hub/web",
+    "test": "npm run test --workspace @vape-hub/web",
+    "test:e2e": "npm run build && npm run test:e2e --workspace @vape-hub/web",
+    "preview": "npm run preview --workspace @vape-hub/web"
+  }
+}
