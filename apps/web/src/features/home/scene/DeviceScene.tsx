@@ -285,7 +285,9 @@ function SoftwareRendererQuality() {
   useEffect(() => {
     const context = gl.getContext();
     const extension = context.getExtension("WEBGL_debug_renderer_info");
-    const renderer = extension ? String(context.getParameter(extension.UNMASKED_RENDERER_WEBGL)) : "";
+    const renderer = extension
+      ? String(context.getParameter(extension.UNMASKED_RENDERER_WEBGL))
+      : "";
     if (/swiftshader|llvmpipe|software/i.test(renderer)) setDpr(0.75);
   }, [gl, setDpr, size.width, size.height]);
   return null;

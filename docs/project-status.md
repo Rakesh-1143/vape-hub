@@ -3,15 +3,15 @@
 Updated: 2026-10-04. Phase: repository foundation and animated homepage.
 
 ## Implemented
-- Current revision: Motion for React installed; CinematicHero, custom softbox environment, brushed/clear-coated original models, concept part inspection, rotate and ambient-pause controls. Source research in design-research.md. Final validation/deployment for this revision is pending below; earlier pass results refer to the previous deployed revision.
+- Current revision: Motion for React installed; CinematicHero, custom softbox environment, brushed/clear-coated original models, concept part inspection, rotate and ambient-pause controls. Source research in design-research.md. Current validation is recorded in the studio revision below; the original ledger is retained as historical evidence.
 - npm TypeScript monorepo: React/Vite storefront, shared contracts, documented Express and AWS boundaries.
 - Homepage with original three-device 3D geometry, studio reflections, floating movement, explicit selection, coordinated copy/color, and scroll rotation.
 - Lazy scene, SVG posters, reduced-motion presentation, offscreen/hidden-tab pausing, renderer failure boundary, and graphics-context cleanup.
 - Responsive header/mobile menu; category guidance; local store graphic; pickup explanation; native FAQ; phone, email, directions and section links.
 - Local licensed fonts, bundled license notices, semantic HTML controls, focus styles, and mobile control sizes.
-- Shared CLAUDE.md, setup instructions, architecture/requirements/design/workflow/decision documentation, CI, four unit behavior tests and ten desktop/mobile browser scenarios.
+- Shared CLAUDE.md, setup instructions, architecture/requirements/design/workflow/decision documentation, CI, four unit behavior tests and twelve desktop/mobile browser scenarios.
 
-## Validation ledger
+## Original delivery validation ledger (historical)
 Executed locally using bundled Node 24.19.0 after a clean dependency installation:
 
 | Check | Observed result |
@@ -47,3 +47,13 @@ Obtain actual commerce requirements and approved product photos/dimensions/artwo
 Implemented coordinated hero entrance, circular selection paths, active-device turn-in, layered metallic trim/display details, pointer/camera response, background finish lettering, interpolated CSS accent, and a short desktop scroll scene. Mobile retains one device and no pin; reduced motion removes the scene and scroll pin. Reviewed all four pages of the supplied Ciao animation guide and documented the scope mapping.
 
 Observed checks: production build passed; lint passed; four unit tests passed; all 10 browser tests passed. Desktop carousel and scroll scene inspected; 390×844 live mobile scene had no horizontal overflow and zero pin spacers. The build completed before the final small CSS accent transition addition; GitHub deployment will rebuild the final files. Updated CLAUDE.md and requirements/design/status documentation. Physical-phone performance and approved branded assets remain pending.
+
+## Cinematic studio revision — 2026-10-04
+
+Installed Motion for React and the official UI UX Pro Max skill locally for Codex. Used the skill's focused accessibility and Three.js guidance; chose the project's art direction manually after the generated palette suggestions did not fit. Rebuilt original device geometry with a tapered mouthpiece, metallic trim, generated display/brushed textures, physical clearcoat and a custom baked softbox environment. Added Motion HTML transitions, a larger three-device desktop lineup, short desktop scroll presentation, explicit rotate, inspect/assemble and ambient-pause controls, and a single-device mobile stage. Concept disclosures remain visible. Updated CLAUDE.md, architecture, design direction and source research.
+
+GitHub Frontend checks run 37216155138 on ffb65ed passed: clean npm ci (0 reported vulnerabilities), storefront/contracts type checks, lint, all 4 unit tests, production build, and all 12 desktop/mobile browser cases (3.5 minutes). Browser cases include new 3D controls, rapid selection, matching text/accent, keyboard selection, section/contact links, reduced-motion cleanup, mobile menu, failed scene chunks and unavailable WebGL. CI screenshots are retained as artifacts for review. The production scene chunk is 891.22 kB / 241.35 kB gzip; lazy DOM motion features are 37.64 kB / 14.36 kB gzip. The large-scene warning remains visible.
+
+Local type/lint/build checks passed before small final composition edits; local Vitest workers subsequently suffered startup/timeouts on this Windows host. Those failed attempts are not claimed as passes. The clean Linux CI run above verified the committed final behavior. Isolated local Chromium screenshots showed the actual desktop model and separated parts; the final 390×844 mobile render reported no horizontal overflow and no page errors. Fixed headline overlap and separated-cap clipping after visual inspection. Subsequent formatting-only edits do not change behavior; the Pages workflow will rebuild them.
+
+Publication target is the existing GitHub Pages preview. Verify the resulting deployment run and live assets after pushing main. Physical-phone frame rate, production Web Vitals, approved real models and actual ecommerce requirements remain outstanding. Next useful step: client review of this studio direction, then replace concepts with approved assets and implement the catalog/API boundaries.
