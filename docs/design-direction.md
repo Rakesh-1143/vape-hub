@@ -8,7 +8,7 @@ Desktop: left-aligned headline with a floating three-device stage to the right, 
 
 ## Motion
 
-No automatic cycling. Selection coordinates metadata, accent lighting and damped transforms; scroll controls additional rotation and scale. Native scrolling remains intact. Reduced motion uses static posters and readable content. Pause offscreen/hidden rendering and revert timelines on cleanup.
+No automatic cycling. Selection coordinates metadata, interpolated carousel positions, turn-in rotation and accent lighting. A short desktop pin coordinates camera distance, device scale/rotation and a detail-copy reveal using one shared progress ref. Mobile has no pin and uses one device. Native scrolling remains intact. Reduced motion uses static posters and readable content. Pause offscreen/hidden rendering and revert timelines on cleanup.
 
 ## Asset policy
 

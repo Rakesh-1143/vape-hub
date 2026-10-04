@@ -28,12 +28,43 @@ export function HomePage() {
   const progress = useRef(0);
   const device = devices[index];
   useEffect(() => {
+    if (reduced || !hero.current) return;
+    const ctx = gsap.context(() => {
+      gsap.from(".hero-intro > *", {
+        y: 36,
+        opacity: 0.5,
+        duration: 1,
+        stagger: 0.12,
+        ease: "power3.out",
+      });
+      gsap.from(".hero-bottom", {
+        y: 20,
+        opacity: 0.6,
+        duration: 0.8,
+        delay: 0.6,
+      });
+      gsap.from(".stage-word", {
+        scale: 1.15,
+        opacity: 0,
+        duration: 1.8,
+        ease: "power3.out",
+      });
+    }, hero);
+    return () => ctx.revert();
+  }, [reduced]);
+  useEffect(() => {
     if (reduced || !text.current) return;
     const ctx = gsap.context(() => {
       gsap.fromTo(
         text.current,
-        { opacity: 0.35, y: 12 },
-        { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" },
+        { opacity: 0, y: 24, filter: "blur(6px)" },
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.7,
+          ease: "power3.out",
+        },
       );
     }, text);
     return () => ctx.revert();
@@ -44,16 +75,37 @@ export function HomePage() {
       return;
     }
     const ctx = gsap.context(() => {
-      gsap.to(progress, {
-        current: 1,
-        ease: "none",
+      const sequence = gsap.timeline({
         scrollTrigger: {
           trigger: hero.current,
           start: "top top",
-          end: mobile ? "bottom center" : "bottom top",
-          scrub: 0.7,
+          end: mobile ? "bottom center" : "+=700",
+          scrub: 0.8,
+          pin: !mobile,
+          invalidateOnRefresh: true,
         },
       });
+      sequence.to(
+        progress,
+        {
+          current: 1,
+          ease: "none",
+          duration: 1,
+        },
+        0,
+      );
+      if (!mobile) {
+        sequence
+          .to(".hero-intro", { y: -65, autoAlpha: 0, duration: 0.25 }, 0.08)
+          .fromTo(
+            ".hero-story",
+            { y: 65, autoAlpha: 0 },
+            { y: 0, autoAlpha: 1, duration: 0.25 },
+            0.3,
+          )
+          .to(".stage-word", { xPercent: -12, opacity: 0.03, duration: 0.8 }, 0)
+          .to(".stage-floor", { scale: 1.5, opacity: 0.7, duration: 0.8 }, 0);
+      }
       gsap.fromTo(
         ".feature-copy",
         { opacity: 0.5, y: mobile ? 10 : 25 },
@@ -89,6 +141,25 @@ export function HomePage() {
       <Header />
       <main id="main">
         <section className="hero" ref={hero} aria-labelledby="hero-title">
+          <div className="stage-word" aria-hidden="true">
+            {device.name}
+          </div>
+          <div className="hero-story">
+            <p className="location-note">A closer look</p>
+            <h2>
+              Every angle.
+              <br />
+              Every detail.
+            </h2>
+            <p>
+              Explore the form, finish and feel.
+              <br />
+              Then find your setup with our team.
+            </p>
+            <a className="text-link" href="#visit">
+              Visit the store <ArrowUpRight size={17} />
+            </a>
+          </div>
           <div className="hero-intro">
             <p className="location-note">
               <span /> Your neighborhood vape shop

@@ -6,10 +6,10 @@ Real client launch; 3–4 developers; PERN stack with AWS; store pickup first. H
 
 ## Reference status
 
-Current published website reviewed: https://www.thevapehubcolorado.com/ and /products. Store contact details were taken from published content; client must confirm them before launch. Team project page and Drive requirements document could not be retrieved. Their contents are not incorporated.
+Current published website reviewed: https://www.thevapehubcolorado.com/ and /products. Store contact details were taken from published content; client must confirm them before launch. The team project page remains unavailable. The Drive PDF was retrieved and all four pages reviewed on 2026-10-04; it is an educational animation guide, not business requirements. See animation-reference.md.
 
 - Project: https://bestbusinessteam.com/team/projects/5
-- Pending document: https://drive.google.com/file/d/1AfRXP38CnZ5QEcEniQTz8urzBSWxT10K/view
+- Reviewed animation guide: https://drive.google.com/file/d/1AfRXP38CnZ5QEcEniQTz8urzBSWxT10K/view
 - Animation: https://www.instagram.com/p/Dc3jgy8Olgz/
 - Uploaded recording was inspected through sequential extracted frames. It shows floating product lineups, rotations, coordinated colors, and detail transitions; original implementation and exact input triggers are unknown.
 
@@ -25,6 +25,6 @@ Repository foundation, responsive homepage, conceptual 3D presentation, usable s
 - Approved catalog, photographs, dimensions, artwork, logo, typography, and content.
 - Launch date, AWS operating budget, hosting region and ownership.
 - Pickup preparation, stock reservation expiry, cancellation/refunds, notification channels.
-- Review the actual requirements document and confirm business/contact information.
+- Obtain actual ecommerce business requirements and confirm business/contact information; the supplied animation guide is already reviewed.
 
 A 21+ website notice is informational, not verified purchase eligibility. Provider and legal requirements must be reviewed for real sales. Shipping is outside the initial release.

@@ -247,10 +247,11 @@ h1 {
   position: absolute;
   left: 34%;
   right: 3%;
-  top: -15px;
+  top: 20px;
   height: 585px;
   isolation: isolate;
-  pointer-events: none;
+  pointer-events: auto;
+  touch-action: pan-y;
 }
 .product-stage canvas {
   position: relative;
@@ -289,7 +290,7 @@ h1 {
   top: 17%;
   width: 76%;
   height: 65%;
-  border: 1px solid #ffffff07;
+  border: 1px solid #ffffff16;
   border-radius: 50%;
   transform: rotate(-18deg);
 }
@@ -310,6 +311,48 @@ h1 {
   letter-spacing: 1px;
   color: #92928e;
   z-index: 3;
+}
+.stage-word {
+  position: absolute;
+  top: 35px;
+  left: 38%;
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  font-size: clamp(130px, 21vw, 320px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--accent);
+  opacity: 0.09;
+  pointer-events: none;
+  user-select: none;
+  transition: color 0.8s;
+}
+.hero-story {
+  position: absolute;
+  left: 5%;
+  top: 145px;
+  width: 33%;
+  opacity: 0;
+  z-index: 3;
+  visibility: hidden;
+  pointer-events: none;
+}
+.hero-story h2 {
+  font-size: clamp(60px, 6.4vw, 96px);
+  line-height: 0.95;
+}
+.hero-story > p:not(.location-note) {
+  font-size: 14px;
+  color: #b5b6b2;
+  margin: 25px 0;
+}
+.hero-story a {
+  pointer-events: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-story {
+    display: none;
+  }
 }
 .hero-product {
   position: absolute;
@@ -893,6 +936,15 @@ footer {
   }
 }
 @media (max-width: 767px) {
+  .hero-story {
+    display: none;
+  }
+  .stage-word {
+    left: 6%;
+    top: 405px;
+    font-size: 130px;
+    opacity: 0.1;
+  }
   .announcement {
     padding: 10px 6%;
     font-size: 9px;
@@ -1161,7 +1213,23 @@ footer {
 
 /* Give the featured device breathing room below the mobile hero action. */
 @media (max-width: 767px) {
-  .product-stage { top: 335px; height: 390px; }
-  .circle-icon { width: 44px; height: 44px; }
-  .product-controls { gap: 7px; }
+  .product-stage {
+    top: 335px;
+    height: 390px;
+  }
+  .circle-icon {
+    width: 44px;
+    height: 44px;
+  }
+  .product-controls {
+    gap: 7px;
+  }
+}
+@property --accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #bc87ba;
+}
+#top {
+  transition: --accent 1s ease;
 }

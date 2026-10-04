@@ -1,4 +1,32 @@
 import { expect, test } from "@playwright/test";
+test("scroll choreography preserves selection and adapts to mobile", async ({
+  page,
+}, testInfo) => {
+  await page.goto("/");
+  await expect(page.locator("canvas")).toBeVisible();
+  if (testInfo.project.name === "desktop") {
+    await expect(page.locator(".pin-spacer")).toHaveCount(1);
+    const top = await page
+      .locator(".hero")
+      .evaluate((el) => el.getBoundingClientRect().top + window.scrollY);
+    await page.evaluate((y) => window.scrollTo(0, y), top + 420);
+    await expect(page.locator(".hero-story")).toHaveCSS(
+      "visibility",
+      "visible",
+    );
+    await expect(page.locator(".hero-intro")).toHaveCSS("visibility", "hidden");
+  } else {
+    await expect(page.locator(".pin-spacer")).toHaveCount(0);
+    await expect(page.locator(".hero-story")).toBeHidden();
+  }
+  await expect(
+    page.getByRole("button", { name: "Show Plum device" }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator("canvas")).toHaveCount(0);
+  await expect(page.locator(".pin-spacer")).toHaveCount(0);
+  await expect(page.locator(".stage-poster")).toBeVisible();
+});
 test("homepage selection, links, layout and rendering", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
