@@ -31,12 +31,12 @@ Browser inspection confirmed live rounded 3D at desktop and 390×844, and the ob
 - Original concept devices and store graphic are temporary; no approved real product models, logo, photography, catalog, prices, or inventory.
 - Drive requirements document remains inaccessible and unread. Obtain it before implementing commerce.
 - No Express API, PostgreSQL integration, authentication, live stock, online orders, payments, purchase age verification, notifications, or POS sync.
-- AWS is not provisioned; CI configuration is local and has not run on GitHub.
+- AWS is not provisioned; GitHub Pages validation/deployment workflow has passed; full browser CI remains separate.
 - 3D engine is a substantial lazy-loaded payload. Posters preserve immediate content, but actual-phone frame rate, low-end device behavior, and production Web Vitals are unverified.
 - No SSR/prerendering; evaluate SEO requirements before public launch.
 - Confirm store contact data and copy with the client before deployment.
 
 ## Next useful step
-GitHub Pages preview requested after repository upload. Added a dedicated Pages workflow and base-path-aware poster URLs. Enabling Pages returned HTTP 422: the current GitHub plan does not support Pages for this private repository. The user approved public visibility; repository is now public and Pages is enabled. Pages-mode production build, lint and all four unit tests passed locally. Workflow deployment and live URL verification are pending.
+GitHub Pages preview requested after repository upload. Added a dedicated Pages workflow and base-path-aware poster URLs. Enabling Pages returned HTTP 422: the current GitHub plan does not support Pages for this private repository. The user approved public visibility; repository is now public and Pages is enabled. Pages-mode production build, lint and all four unit tests passed locally. GitHub Pages workflow 37206086291 completed successfully. https://rakesh-1143.github.io/vape-hub/ returned HTTP 200; application JS, lazy 3D chunk and poster image also returned HTTP 200. GitHub ran typecheck, lint, four unit tests and production build successfully. Public preview is frontend-only.
 
 Review the actual requirements document and obtain product photos/dimensions/artwork. Decide payment-at-pickup versus approved online payment, POS/inventory integration, launch date and AWS budget. Then implement catalog/API contracts and staff inventory workflows before checkout.

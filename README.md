@@ -60,3 +60,10 @@ The temporary devices are not purchasable products. The store-sign graphic is or
 ## Repository
 
 `apps/web` contains the frontend. `packages/contracts` holds shared types. `apps/api` and `infra/aws` document the next implementation boundaries. Read [CLAUDE.md](CLAUDE.md) before contributing and [project status](docs/project-status.md) for validation and remaining work.
+
+## Homepage preview
+
+Live frontend preview: https://rakesh-1143.github.io/vape-hub/
+
+The repository is public with user approval. Pushes to main run the GitHub Pages workflow. This is a static homepage preview; API, checkout, database and AWS services are not deployed.
+
