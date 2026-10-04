@@ -37,4 +37,6 @@ Browser inspection confirmed live rounded 3D at desktop and 390×844, and the ob
 - Confirm store contact data and copy with the client before deployment.
 
 ## Next useful step
+GitHub Pages preview requested after repository upload. Added a dedicated Pages workflow and base-path-aware poster URLs. Enabling Pages returned HTTP 422: the current GitHub plan does not support Pages for this private repository. The user approved public visibility; repository is now public and Pages is enabled. Pages-mode production build, lint and all four unit tests passed locally. Workflow deployment and live URL verification are pending.
+
 Review the actual requirements document and obtain product photos/dimensions/artwork. Decide payment-at-pickup versus approved online payment, POS/inventory integration, launch date and AWS budget. Then implement catalog/API contracts and staff inventory workflows before checkout.

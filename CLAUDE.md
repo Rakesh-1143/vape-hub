@@ -46,7 +46,7 @@ Use Node 24 LTS and npm. On PowerShell, `npm.cmd` avoids script execution-policy
 5. Keep animation local to the homepage. Dispose Three.js resources and revert GSAP contexts; pause rendering offscreen and in hidden tabs.
 6. No secrets in source, fixtures, browser variables, logs, or documentation. `VITE_` variables are public. Commit only `.env.example`; never real `.env` files.
 7. Payment provider, POS synchronization, age verification, actual assets, budget, and launch date remain unresolved. Do not silently select a payment provider or claim a 21+ notice is purchase verification.
-8. Do not deploy, configure cloud credentials, or create paid infrastructure in this phase.
+8. The user has authorized a static GitHub Pages homepage preview. The Pages workflow builds with GITHUB_PAGES=true and base /vape-hub/. Keep local builds at /. AWS resources and paid infrastructure remain outside scope. Never change repository visibility without user approval.
 9. Run meaningful checks for your changes. Never report a test as passed unless executed. Distinguish automated checks, browser observations, and unverified physical-device performance.
 10. After meaningful work, update `docs/project-status.md` with changes, exact observed checks, remaining limitations, and next step. Update this file when architecture, commands, or standing decisions change. Store durable rationale in `docs/decisions`.
 

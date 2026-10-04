@@ -70,7 +70,7 @@ export function ProductStage({
       <div className="stage-floor" />
       <img
         className={`stage-poster ${ready && enabled ? "is-hidden" : ""}`}
-        src={device.poster}
+        src={`${import.meta.env.BASE_URL}${device.poster.replace(/^\//, "")}`}
         alt=""
       />
       {enabled && (
