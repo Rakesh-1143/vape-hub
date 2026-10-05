@@ -3,7 +3,7 @@
 Updated: 2026-10-05. Phase: repository foundation and expanded animated homepage. Current revision details are recorded below; earlier ledgers are historical.
 
 ## Implemented
-- Current revision: Motion for React installed; CinematicHero, custom softbox environment, brushed/clear-coated original models, concept part inspection, rotate and ambient-pause controls. Source research in design-research.md. Current validation is recorded in the studio revision below; the original ledger is retained as historical evidence.
+- Current revision: adult entry, expanded product/store story, six category studies, two coordinated 3D scenes, accessible animated FAQ, centralized store facts and metadata. Original metallic concept models retain inspection, rotate and ambient-pause controls. Current validation is recorded in the expanded-homepage release ledger below; earlier ledgers remain historical evidence.
 - npm TypeScript monorepo: React/Vite storefront, shared contracts, documented Express and AWS boundaries.
 - Homepage with original three-device 3D geometry, studio reflections, floating movement, explicit selection, coordinated copy/color, and scroll rotation.
 - Lazy scene, SVG posters, reduced-motion presentation, offscreen/hidden-tab pausing, renderer failure boundary, and graphics-context cleanup.
@@ -90,3 +90,11 @@ CI follow-up 37352182983 on b2b5599 passed clean installation, type/lint/format/
 Refined the original category bottle with rounded lathed shoulders/base, a detailed rounded cap and a wrapped category-study label. It remains an unbranded original concept with no inventory or product claims. Final geometry and selection-safety checks are pending.
 
 After removal of async shader polling, the current local production review completed with zero page errors and no 390×844 horizontal overflow. Inspected the rounded bottle and both hero layouts. Current entered-homepage Lighthouse audit: performance 67, accessibility 100, best practices 100, SEO 69; FCP 1.5s, LCP 2.4s, CLS 0.005, TBT 4270ms, no warnings. This supersedes the experimental shader audit, and still leaves material startup work. Final production output: scene 894.46kB / 242.75kB gzip, application 480.35kB / 165.24kB gzip. Local build and lint passed; Prettier was rerun after the unused-import cleanup. The intervening CI attempts stopped at lint/format and are not browser-validation passes. Full final CI remains required before advancing main.
+
+### Validated release source
+
+Final Frontend checks run 37353405111 on 96e556b3620183b835425d3bf13e154655d0337e passed clean npm ci (0 vulnerabilities), frontend/contracts type checking, lint, Prettier, all 6 unit tests, production build and all 21 browser tests, with one intentional duplicate responsive-matrix skip. The rapid-selection case now completes without page errors. This run validates the final source after removing unsafe async shader polling and refining the bottle. Only documentation/checkout-line-ending updates follow this source revision.
+
+Fresh development startup: Vite 7.3.6 ready on 127.0.0.1:5176 in 3.7 seconds; homepage, App and AgeGate endpoints returned HTTP 200. Local production review reported zero page errors and no 390×844 horizontal overflow. Desktop/tablet/mobile visual inspection and the 320–1920px automated matrix are complete. Physical devices remain unverified. Added .gitattributes to preserve LF checkout for cross-platform formatting.
+
+Publishing target: the owner-authorized public GitHub Pages preview. Main deployment and live response verification will be recorded after completion. Next useful step is owner review of the live direction and confirmed hours/assets/policies, followed by physical-device performance profiling and the agreed catalog/API phase.

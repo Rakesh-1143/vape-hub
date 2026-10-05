@@ -69,3 +69,5 @@ Motion for React is now installed as the `motion` dependency. `CinematicHero` ow
 Follow docs/animation-reference.md: short desktop scroll pin, no mobile pin, explicit product selection without automatic cycling, static reduced-motion mode. The Ciao guide is reviewed; it is not business requirements. Kill per-device GSAP timelines on selection changes/unmount, preserve poster/contact controls, and never reuse beverage claims or branded assets.
 
 Graphics startup retains the static poster until real frames render. Preserve that readiness boundary and the per-scene offscreen/hidden-tab pause. Do not add asynchronous shader polling without proving cancellation safety when materials are replaced or disposed. Current lab performance has material startup cost; consult the status ledger before claiming production performance. Root metadata defaults to noindex; robots.txt allows crawl so crawlers can read that directive. Launch indexing and social artwork still need owner approval.
+
+Git checkout uses .gitattributes to keep text files LF on Windows and Linux, matching Prettier and .editorconfig. Do not renormalize unrelated files during feature work.
