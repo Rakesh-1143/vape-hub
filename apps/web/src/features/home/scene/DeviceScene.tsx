@@ -1,10 +1,5 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import {
-  useEffect,
-  useMemo,
-  useRef,
-  type MutableRefObject,
-} from "react";
+import { useEffect, useMemo, useRef, type MutableRefObject } from "react";
 import gsap from "gsap";
 import {
   ACESFilmicToneMapping,
