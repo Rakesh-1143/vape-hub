@@ -37,7 +37,7 @@ test("entry, FAQ, policies and metadata expose usable semantics", async ({
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   const entryAudit = await new AxeBuilder({ page })
-    .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
     .analyze();
   expect(entryAudit.violations).toEqual([]);
   await page.getByRole("button", { name: "Enter Site" }).click();
@@ -66,7 +66,7 @@ test("entry, FAQ, policies and metadata expose usable semantics", async ({
   );
   expect(schema).not.toContain("openingHours");
   const audit = await new AxeBuilder({ page })
-    .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
     .analyze();
   expect(audit.violations).toEqual([]);
 });

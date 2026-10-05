@@ -1,6 +1,6 @@
 export function Brand() {
   return (
-    <a className="brand" href="#top" aria-label="The Vape Hub home">
+    <a className="brand" href="#top">
       <span className="brand-mark" aria-hidden="true">
         <i />
         <i />

@@ -67,3 +67,5 @@ Motion for React is now installed as the `motion` dependency. `CinematicHero` ow
 ## Animation revision — 2026-10-04
 
 Follow docs/animation-reference.md: short desktop scroll pin, no mobile pin, explicit product selection without automatic cycling, static reduced-motion mode. The Ciao guide is reviewed; it is not business requirements. Kill per-device GSAP timelines on selection changes/unmount, preserve poster/contact controls, and never reuse beverage claims or branded assets.
+
+Graphics startup prepares shaders with Three.js compileAsync while the static poster remains visible. Keep this readiness boundary and the per-scene offscreen/hidden-tab pause. Current lab performance has material startup cost; consult the status ledger before claiming production performance. Root metadata defaults to noindex; robots.txt allows crawl so crawlers can read that directive. Launch indexing and social artwork still need owner approval.

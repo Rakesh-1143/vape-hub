@@ -2,6 +2,7 @@ import { useFrame } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, type MutableRefObject } from "react";
 import {
   CanvasTexture,
+  BoxGeometry,
   DataTexture,
   Group,
   LatheGeometry,
@@ -29,7 +30,10 @@ function Part({
 }) {
   const [width, height, depth] = size;
   const geometry = useMemo(
-    () => new RoundedBoxGeometry(width, height, depth, 3, radius),
+    () =>
+      radius <= 0.03
+        ? new BoxGeometry(width, height, depth)
+        : new RoundedBoxGeometry(width, height, depth, 3, radius),
     [width, height, depth, radius],
   );
   useEffect(() => () => geometry.dispose(), [geometry]);

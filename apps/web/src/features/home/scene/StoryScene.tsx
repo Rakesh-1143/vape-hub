@@ -1,5 +1,5 @@
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef, type MutableRefObject } from "react";
+import { useMemo, useRef, useState, type MutableRefObject } from "react";
 import {
   ACESFilmicToneMapping,
   Color,
@@ -12,6 +12,7 @@ import {
   SoftboxEnvironment,
   Lifecycle,
   SoftwareRendererQuality,
+  ShaderWarmup,
 } from "./DeviceScene";
 import { DeviceModel } from "./DeviceModel";
 function StoryObjects({ progress }: { progress: MutableRefObject<number> }) {
@@ -141,11 +142,13 @@ export default function StoryScene({
   onReady: () => void;
   onFailure: () => void;
 }) {
+  const [warmed, setWarmed] = useState(false);
+  const complete = useMemo(() => () => setWarmed(true), []);
   return (
     <Canvas
       camera={{ position: [0, 0.1, 8.8], fov: 33 }}
       dpr={[1, mobile ? 1 : 1.4]}
-      frameloop={running ? "always" : "never"}
+      frameloop={running && warmed ? "always" : "never"}
       gl={{ alpha: true, antialias: true }}
       onCreated={({ gl }) => {
         gl.toneMapping = ACESFilmicToneMapping;
@@ -158,6 +161,7 @@ export default function StoryScene({
       <ambientLight intensity={0.3} />
       <directionalLight position={[-3, 4, 4]} intensity={2.5} />
       <StoryObjects progress={progress} />
+      <ShaderWarmup onComplete={complete} onFailure={onFailure} />
       <Lifecycle onReady={onReady} onFailure={onFailure} />
     </Canvas>
   );

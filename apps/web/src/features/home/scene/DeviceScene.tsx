@@ -1,5 +1,11 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useEffect, useMemo, useRef, type MutableRefObject } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type MutableRefObject,
+} from "react";
 import gsap from "gsap";
 import {
   ACESFilmicToneMapping,
@@ -261,6 +267,32 @@ function CameraRig({
   });
   return null;
 }
+export function ShaderWarmup({
+  onComplete,
+  onFailure,
+}: {
+  onComplete: () => void;
+  onFailure: () => void;
+}) {
+  const { gl, scene, camera } = useThree();
+  useEffect(() => {
+    let cancelled = false;
+    // KHR_parallel_shader_compile can prepare materials without blocking the
+    // first visible frame. The poster stays in place until real frames render.
+    gl.compileAsync(scene, camera).then(
+      () => {
+        if (!cancelled) onComplete();
+      },
+      () => {
+        if (!cancelled) onFailure();
+      },
+    );
+    return () => {
+      cancelled = true;
+    };
+  }, [gl, scene, camera, onComplete, onFailure]);
+  return null;
+}
 export function Lifecycle({
   onReady,
   onFailure,
@@ -315,11 +347,13 @@ export default function DeviceScene({
   onReady: () => void;
   onFailure: () => void;
 }) {
+  const [warmed, setWarmed] = useState(false);
+  const complete = useMemo(() => () => setWarmed(true), []);
   return (
     <Canvas
       camera={{ position: [0, 0.45, mobile ? 8.6 : 10], fov: mobile ? 35 : 34 }}
       dpr={[1, mobile ? 1.25 : 1.5]}
-      frameloop={running ? "always" : "never"}
+      frameloop={running && warmed ? "always" : "never"}
       gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
       fallback={<span className="sr-only">Static device presentation</span>}
       onCreated={({ gl }) => {
@@ -332,6 +366,7 @@ export default function DeviceScene({
       <SoftwareRendererQuality />
       <StudioLighting activeIndex={activeIndex} />
       <CameraRig mobile={mobile} progress={progress} />
+      <ShaderWarmup onComplete={complete} onFailure={onFailure} />
       <Lifecycle onReady={onReady} onFailure={onFailure} />
       {devices.map((device, index) => (
         <Product

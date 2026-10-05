@@ -64,6 +64,9 @@ export function ProductStory() {
     };
   }, [mobile, reduced]);
   const enabled = !reduced && !failed && visited;
+  useEffect(() => {
+    if (!enabled) setReady(false);
+  }, [enabled]);
   return (
     <section
       className={`product-story ${reduced ? "is-static" : ""}`}
