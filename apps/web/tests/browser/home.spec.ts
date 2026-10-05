@@ -1,30 +1,61 @@
 import { expect, test } from "@playwright/test";
-test("3D controls support inspection, rotation and ambient pause", async ({ page }, testInfo) => {
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() =>
+    localStorage.setItem("vape-hub:adult-entry:v1", "confirmed"),
+  );
+});
+test("3D controls support inspection, rotation and ambient pause", async ({
+  page,
+}, testInfo) => {
   const errors: string[] = [];
-  page.on("pageerror", error => errors.push(error.message));
+  page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
-  await expect(page.getByRole("button", { name: "Rotate device" })).toBeEnabled();
+  await expect(
+    page.getByRole("button", { name: "Rotate device" }),
+  ).toBeEnabled();
   if (process.env.CI) {
     // Capture after the 1.5-second entrance, for review of actual rendered geometry.
     await page.waitForTimeout(1800);
-    await page.screenshot({ path: testInfo.outputPath("studio-hero.png"), animations: "disabled" });
+    await page.screenshot({
+      path: testInfo.outputPath("studio-hero.png"),
+      animations: "disabled",
+    });
   }
-  await page.getByRole("button", { name: "Inspect design", exact: true }).click();
-  await expect(page.getByRole("button", { name: "Assemble design", exact: true })).toHaveAttribute("aria-pressed", "true");
-  await expect(page.locator(".product-stage")).toHaveAttribute("data-view", "exploded");
+  await page
+    .getByRole("button", { name: "Inspect design", exact: true })
+    .click();
+  await expect(
+    page.getByRole("button", { name: "Assemble design", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator(".product-stage")).toHaveAttribute(
+    "data-view",
+    "exploded",
+  );
   if (process.env.CI) {
     await page.waitForTimeout(1600);
-    await page.screenshot({ path: testInfo.outputPath("studio-inspection.png"), animations: "disabled" });
+    await page.screenshot({
+      path: testInfo.outputPath("studio-inspection.png"),
+      animations: "disabled",
+    });
   }
   await page.getByRole("button", { name: "Rotate device" }).focus();
   await page.keyboard.press("Enter");
   await page.getByRole("button", { name: "Pause ambient motion" }).click();
-  await expect(page.getByRole("button", { name: "Resume ambient motion" })).toHaveAttribute("aria-pressed", "true");
+  await expect(
+    page.getByRole("button", { name: "Resume ambient motion" }),
+  ).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("button", { name: "Resume ambient motion" }).click();
-  await page.getByRole("button", { name: "Assemble design", exact: true }).click();
-  await expect(page.locator(".product-stage")).toHaveAttribute("data-view", "assembled");
+  await page
+    .getByRole("button", { name: "Assemble design", exact: true })
+    .click();
+  await expect(page.locator(".product-stage")).toHaveAttribute(
+    "data-view",
+    "assembled",
+  );
   await page.getByRole("button", { name: "Next device" }).click();
-  await expect(page.getByRole("heading", { name: "Midnight", exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Midnight", exact: true }),
+  ).toBeVisible();
   expect(errors).toEqual([]);
 });
 test("scroll choreography preserves selection and adapts to mobile", async ({
@@ -33,7 +64,7 @@ test("scroll choreography preserves selection and adapts to mobile", async ({
   await page.goto("/");
   await expect(page.locator("canvas")).toBeVisible();
   if (testInfo.project.name === "desktop") {
-    await expect(page.locator(".pin-spacer")).toHaveCount(1);
+    await expect(page.locator(".pin-spacer")).toHaveCount(2);
     const top = await page
       .locator(".hero")
       .evaluate((el) => el.getBoundingClientRect().top + window.scrollY);
@@ -60,7 +91,7 @@ test("homepage selection, links, layout and rendering", async ({ page }) => {
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/");
   await expect(
-    page.getByRole("heading", { name: "Find your next setup." }),
+    page.getByRole("heading", { name: "Discover The Vape Hub" }),
   ).toBeVisible();
   await expect(page.locator("canvas")).toBeVisible();
   await page.getByRole("button", { name: "Next device" }).click();
@@ -90,7 +121,7 @@ test("homepage selection, links, layout and rendering", async ({ page }) => {
       () => document.documentElement.scrollWidth <= window.innerWidth,
     ),
   ).toBe(true);
-  await page.getByRole("link", { name: /E-liquids Explore/ }).click();
+  await page.getByRole("link", { name: /E-Liquids.*Explore/i }).click();
   await expect(page.locator("#category-liquids")).toBeVisible();
   await expect(
     page.getByRole("link", { name: "Call the store" }),

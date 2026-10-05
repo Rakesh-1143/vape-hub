@@ -1,29 +1,7 @@
-import {
-  Component,
-  lazy,
-  Suspense,
-  useEffect,
-  useRef,
-  useState,
-  type ReactNode,
-} from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import type { FeaturedDevice } from "@vape-hub/contracts";
+import { SceneBoundary } from "./SceneBoundary";
 const Scene = lazy(() => import("../scene/DeviceScene"));
-class SceneBoundary extends Component<
-  { children: ReactNode; onFailure: () => void },
-  { failed: boolean }
-> {
-  state = { failed: false };
-  static getDerivedStateFromError() {
-    return { failed: true };
-  }
-  componentDidCatch() {
-    this.props.onFailure();
-  }
-  render() {
-    return this.state.failed ? null : this.props.children;
-  }
-}
 export function ProductStage({
   device,
   index,
@@ -67,6 +45,9 @@ export function ProductStage({
   }, []);
   const enabled = !reducedMotion && !failed;
   useEffect(() => {
+    if (!enabled) setReady(false);
+  }, [enabled]);
+  useEffect(() => {
     onStatus?.(ready && enabled);
   }, [ready, enabled, onStatus]);
   return (
@@ -80,6 +61,7 @@ export function ProductStage({
       <div className="stage-floor" />
       <img
         className={`stage-poster ${ready && enabled ? "is-hidden" : ""}`}
+        fetchPriority="high"
         src={`${import.meta.env.BASE_URL}${device.poster.replace(/^\//, "")}`}
         alt=""
       />

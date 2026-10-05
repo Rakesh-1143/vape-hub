@@ -22,3 +22,9 @@ Node 24 LTS, compatible React 19 / React Three Fiber 9 dependency line, npm lock
 Browser acceptance uses Playwright's Chromium channel (new headless mode) with a single worker. The legacy headless shell showed intermittent pre-navigation crashes after software-WebGL tests, so it is not used. Visual review captures are separate from browser assertions; physical-phone performance remains unverified.
 
 End-to-end tests target built production assets through Vite preview on strict port 4173. The root test:e2e command builds first. This isolates test traffic from the development server's module optimization, HMR and overlays; injected chunk failures target the actual deployed asset shape.
+
+## Expanded homepage boundaries (2026-10-05)
+
+App.tsx owns BrowserRouter with the Vite deployment base. HomeMotionProvider owns shared Motion accessibility/lazy features; AgeGate mounts the homepage only after local adult confirmation. HTML content remains available with failed/unavailable graphics. GSAP owns the two desktop scroll timelines; R3F owns graphics and pointer/camera response. Tablet/mobile layouts and reduced motion remove pins. Store facts/hours are centralized in home/data/store.ts; do not duplicate schedules in components. Tailwind v4 utilities/theme variables are integrated without preflight to preserve the existing stylesheet conventions. Vite injects canonical/Open Graph and factual JSON-LD using public environment values. The preview is noindex; approve the launch domain and indexing policy before changing metadata/robots.
+
+ApprovedModel is an optional lazy asset boundary; current devices remain original geometry. An actual GLB, texture budget and source license must be validated before setting modelPath. More detail: homepage-brief.md and apps/web/public/assets/models/README.md.

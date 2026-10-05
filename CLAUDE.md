@@ -52,6 +52,10 @@ Use Node 24 LTS and npm. On PowerShell, `npm.cmd` avoids script execution-policy
 
 ## Documentation
 
+The 2026-10-05 brief expands the homepage into an adult entry and continuous product/store story. Read `docs/homepage-brief.md` for the scene map and ownership. `HomePage` owns a shared Motion provider and AgeGate. The entry stores only self-confirmation locally; it is not purchase identity verification. React Router handles the homepage with the Vite base path; native anchors handle its sections. Tailwind theme tokens coexist with the original scoped CSS without a second reset. Use `npm.cmd run format --workspace @vape-hub/web` and `format:check` for Prettier.
+
+All store facts and unresolved hours belong in `features/home/data/store.ts`. The published pages conflict on opening hours: do not choose a schedule without owner confirmation or publish conflicting JSON-LD. The footer's policy notes are placeholders for approved policy publication; no legal claims or sales integration are implied. `ProductModel` provides an optional lazy Drei GLB adapter; keep original concepts/posters as the working fallback. Tablet/mobile below 1024px have no pinned sequences.
+
 Motion for React is now installed as the `motion` dependency. `CinematicHero` owns HTML motion and controls; `DeviceScene` coordinates the camera and product paths; `DeviceModel` owns original geometry/materials and part separation. Use LazyMotion/m for DOM animation, GSAP for scroll coordination, and R3F for graphics. Do not animate the same property with two libraries. See docs/design-research.md. UI UX Pro Max is installed locally for Codex; teammates can install its official Claude plugin using the upstream marketplace instructions.
 
 - Setup: `README.md`

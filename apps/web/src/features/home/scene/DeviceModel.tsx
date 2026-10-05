@@ -29,7 +29,7 @@ function Part({
 }) {
   const [width, height, depth] = size;
   const geometry = useMemo(
-    () => new RoundedBoxGeometry(width, height, depth, 5, radius),
+    () => new RoundedBoxGeometry(width, height, depth, 3, radius),
     [width, height, depth, radius],
   );
   useEffect(() => () => geometry.dispose(), [geometry]);

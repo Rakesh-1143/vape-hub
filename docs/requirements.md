@@ -15,6 +15,8 @@ Current published website reviewed: https://www.thevapehubcolorado.com/ and /pro
 
 ## This phase
 
+The 2026-10-05 user brief requests a homepage-only scene sequence: persistent adult entry, original 3D/procedural fallbacks, six categories, factual local guidance, a coordinated product story, store/contact information, accessible animated FAQ, closing CTA, footer policy notes, SEO configuration and responsive/accessibility checks. See `homepage-brief.md`. No unrelated pages or backend complexity are required. Privacy/Terms publication is planned but awaits owner-approved wording; Returns points customers to the store's current policy. Published business hours conflict and require owner confirmation.
+
 Repository foundation, responsive homepage, conceptual 3D presentation, usable store/category/contact information, documentation, checks. No checkout, authentication, live inventory, purchase age verification, API, or AWS deployment.
 
 ## Resolve before commerce implementation

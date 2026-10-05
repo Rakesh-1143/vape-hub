@@ -7,9 +7,10 @@ import "@fontsource/manrope/latin-500.css";
 import "@fontsource/manrope/latin-600.css";
 import "../styles/global.css";
 import "../styles/cinematic.css";
-import { HomePage } from "../features/home/HomePage";
+import "../styles/home-story.css";
+import { App } from "./App";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <HomePage />
+    <App />
   </React.StrictMode>,
 );

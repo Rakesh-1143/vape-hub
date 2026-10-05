@@ -1,13 +1,15 @@
 import { ArrowUpRight, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Brand } from "../ui/Brand";
 export function Header() {
   const [open, setOpen] = useState(false);
+  const toggle = useRef<HTMLButtonElement>(null);
   return (
     <header className="site-header">
       <Brand />
       <button
         className="menu-toggle"
+        ref={toggle}
         aria-expanded={open}
         aria-controls="main-navigation"
         aria-label={open ? "Close menu" : "Open menu"}
@@ -20,6 +22,12 @@ export function Header() {
         className={open ? "navigation is-open" : "navigation"}
         aria-label="Main navigation"
         onClick={() => setOpen(false)}
+        onKeyDown={(event) => {
+          if (event.key === "Escape") {
+            setOpen(false);
+            toggle.current?.focus();
+          }
+        }}
       >
         <a href="#collection">Explore the collection</a>
         <a href="#our-store">Our store</a>

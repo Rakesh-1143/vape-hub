@@ -1,13 +1,13 @@
 # Project status
 
-Updated: 2026-10-04. Phase: repository foundation and animated homepage.
+Updated: 2026-10-05. Phase: repository foundation and expanded animated homepage. Current revision details are recorded below; earlier ledgers are historical.
 
 ## Implemented
 - Current revision: Motion for React installed; CinematicHero, custom softbox environment, brushed/clear-coated original models, concept part inspection, rotate and ambient-pause controls. Source research in design-research.md. Current validation is recorded in the studio revision below; the original ledger is retained as historical evidence.
 - npm TypeScript monorepo: React/Vite storefront, shared contracts, documented Express and AWS boundaries.
 - Homepage with original three-device 3D geometry, studio reflections, floating movement, explicit selection, coordinated copy/color, and scroll rotation.
 - Lazy scene, SVG posters, reduced-motion presentation, offscreen/hidden-tab pausing, renderer failure boundary, and graphics-context cleanup.
-- Responsive header/mobile menu; category guidance; local store graphic; pickup explanation; native FAQ; phone, email, directions and section links.
+- Responsive header/mobile menu; six category presentations; local store illustration; pickup explanation; accessible animated FAQ; phone, email, directions and section links.
 - Local licensed fonts, bundled license notices, semantic HTML controls, focus styles, and mobile control sizes.
 - Shared CLAUDE.md, setup instructions, architecture/requirements/design/workflow/decision documentation, CI, four unit behavior tests and twelve desktop/mobile browser scenarios.
 
@@ -57,3 +57,22 @@ GitHub Frontend checks run 37216155138 on ffb65ed passed: clean npm ci (0 report
 Local type/lint/build checks passed before small final composition edits; local Vitest workers subsequently suffered startup/timeouts on this Windows host. Those failed attempts are not claimed as passes. The clean Linux CI run above verified the committed final behavior. Isolated local Chromium screenshots showed the actual desktop model and separated parts; the final 390×844 mobile render reported no horizontal overflow and no page errors. Fixed headline overlap and separated-cap clipping after visual inspection. Subsequent formatting-only edits do not change behavior; the Pages workflow will rebuild them.
 
 Publication target is the existing GitHub Pages preview. Verify the resulting deployment run and live assets after pushing main. Physical-phone frame rate, production Web Vitals, approved real models and actual ecommerce requirements remain outstanding. Next useful step: client review of this studio direction, then replace concepts with approved assets and implement the catalog/API boundaries.
+
+## Expanded homepage story — 2026-10-05
+
+Implemented the pasted homepage brief in the existing PERN workspace. Added a persistent 21+ entry screen with storage-failure recovery, React Router application boundary, shared lazy Motion provider, Tailwind v4 design tokens, six original category illustrations with pointer tilt and actionable guidance, three store-support themes, a second GSAP/R3F category story, centralized factual contact data, store-hours confirmation notice, animated keyboard-accessible FAQ, closing contact CTA, and valid footer policy anchors. Existing selection, rotation, inspection, static posters and rendering fallbacks remain available. Desktop has two short coordinated pins; layouts below 1024px and reduced-motion presentation have none. Reduced motion mounts no canvas. Story graphics load near the viewport and both scenes pause when offscreen or the tab is hidden.
+
+Added an optional lazy Drei GLB adapter supporting Meshopt and opt-in self-hosted Draco. No approved GLB has been supplied or tested; current graphics use original reusable geometry. Lowered rounded geometry subdivisions and softbox PMREM resolution after the first Lighthouse review. Real inventory, product claims, prices, reviews and purchase flows remain absent. The published client home/contact/products pages disagree on hours, so no schedule or openingHours schema was invented. Policy notes explicitly await owner-approved documents. Added canonical/Open Graph/factual Store JSON-LD build metadata; preview indexing remains disabled.
+
+Updated CLAUDE.md, README, requirements, model integration guidance and docs/homepage-brief.md. Added Prettier and CI formatting checks, two unit behavior cases and browser coverage for age-entry persistence/storage failure, WCAG-tagged axe scans, animated FAQ, secondary-scene failure, coordinated story/reduced-motion cleanup, and a 320–1920px layout matrix.
+
+### Observed checks before publication
+
+- Dependency installations completed with 0 reported vulnerabilities; final installation audited 447 packages. Clean installation of the full revision will be checked in CI.
+- Local TypeScript, lint and production build passed before final small geometry/poster/link fixes. Final local type/lint checks are pending below.
+- Local Vitest failed to start worker processes within 60 seconds. No local unit-test pass is claimed. The committed revision will be verified by the clean Linux CI runner.
+- Production Chromium screenshots inspected at 1440px and 390×844: entry, hero, categories, second story and local store. The review script reported zero page errors and no mobile horizontal overflow. Poster overlap seen during secondary-scene startup was fixed afterward.
+- First entered-homepage Lighthouse audit: performance 68, accessibility 100, best practices 100, SEO 61; FCP 1.5s, LCP 2.2s, CLS 0.005, TBT 5190ms. This is a local simulated-mobile lab run, not physical-device evidence. The informational label mismatch found in its detailed report was fixed; geometry/PMREM were reduced and valid preview robots.txt added afterward. SEO is intentionally limited by noindex. A final audit will be recorded separately.
+- All final CI/browser checks and deployment are pending at this point. Older CI runs in the historical ledger do not validate this revision.
+
+Pending owner input: current hours, approved photos/logo/product models, social-preview artwork, legal policies, real commerce requirements and production domain/indexing approval. Pending technical work: physical-phone performance, engine-payload reduction/prerendering where justified, approved-model validation, API/database/catalog/stock/ordering/payment/ID verification and AWS deployment. The preview entry confirmation is not purchase-age verification.

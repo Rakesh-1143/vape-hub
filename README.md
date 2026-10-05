@@ -50,6 +50,10 @@ npm.cmd run preview
 
 ## What is included
 
+The expanded homepage brief is mapped in `docs/homepage-brief.md`. It includes persistent 21+ entry, six category studies, two coordinated product scenes, local guidance, a store illustration, accessible animated FAQ, and working contact/navigation links. Confirmation is informational and does not replace purchase ID checks. Store hours conflict across published client pages and are explicitly awaiting owner confirmation.
+
+Optional root configuration: `VITE_PUBLIC_SITE_URL`, `VITE_INDEXABLE`, and `VITE_OG_IMAGE_URL`. Vite reads these from the repository root. The preview defaults to noindex until launch approval. Frontend values are public; never use them for secrets. Formatting: `npm.cmd run format --workspace @vape-hub/web` or `npm.cmd run format:check --workspace @vape-hub/web`.
+
 - Homepage with three original 3D device concepts, explicit selection, coordinated colors/text, and scroll rotation.
 - HTML content, poster fallback, reduced-motion support, mobile menu and single-device presentation.
 - Category information, store directions, phone/email links, FAQ, and accurate future pickup messaging.

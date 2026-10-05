@@ -8,4 +8,4 @@ Before implementation: read CLAUDE.md, inspect current modules, agree on shared 
 
 Use npm ci after pulling lockfile changes. Add dependencies in the intended workspace, e.g. `npm.cmd install <package> --workspace @vape-hub/web`. Commit package-lock.json with manifest changes. Never hand-edit lockfiles or commit node_modules.
 
-Configure GitHub branch protection and required CI checks in the shared repository once created. This local project does not create a remote, push changes, or configure repository settings.
+The shared public repository is https://github.com/Rakesh-1143/vape-hub. The owner authorized publication and the GitHub Pages preview. Configure branch protection and required CI checks with the team; those protections have not been configured by this homepage phase. Validate feature branches before advancing main, which triggers Pages deployment. Never publish secrets or unapproved customer data.

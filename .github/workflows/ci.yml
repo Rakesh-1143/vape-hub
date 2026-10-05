@@ -16,6 +16,7 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm run lint
+      - run: npm run format:check --workspace @vape-hub/web
       - run: npm test
       - run: npm exec --workspace @vape-hub/web -- playwright install --with-deps --no-shell chromium
       - run: npm run test:e2e

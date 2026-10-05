@@ -28,23 +28,3 @@ export const devices: FeaturedDevice[] = [
     poster: "/assets/images/device-copper.svg",
   },
 ];
-export const categories = [
-  {
-    id: "devices",
-    name: "Devices & kits",
-    description: "Find a setup that fits your day.",
-    kind: "device",
-  },
-  {
-    id: "liquids",
-    name: "E-liquids",
-    description: "Explore the options in store.",
-    kind: "bottle",
-  },
-  {
-    id: "accessories",
-    name: "Coils & accessories",
-    description: "Keep your setup in good shape.",
-    kind: "coil",
-  },
-] as const;

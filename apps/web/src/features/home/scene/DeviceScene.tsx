@@ -15,10 +15,10 @@ import {
   Scene,
   SRGBColorSpace,
 } from "three";
-import { DeviceModel } from "./DeviceModel";
+import { ProductModel } from "./ProductModel";
 import { devices } from "../data/devices";
 
-function SoftboxEnvironment() {
+export function SoftboxEnvironment() {
   const { gl, scene } = useThree();
   useEffect(() => {
     const studio = new Scene();
@@ -46,7 +46,7 @@ function SoftboxEnvironment() {
     light([0, 6, 0], [5, 2, 0.05], "#ffffff", 4);
     light([1, 1, -4], [2, 4, 0.05], "#dfc6e2", 3);
     const generator = new PMREMGenerator(gl);
-    const target = generator.fromScene(studio, 0.08);
+    const target = generator.fromScene(studio, 0.08, 0.1, 100, { size: 128 });
     const previous = scene.environment;
     scene.environment = target.texture;
     return () => {
@@ -165,8 +165,7 @@ function Product({
     g.visible = !mobile || active;
     const x = mobile
       ? Math.sin(angle) * 2.3
-      : Math.sin(angle) * 2.7 * (1 + close * 0.8) +
-        (active ? close * 1.15 : 0);
+      : Math.sin(angle) * 2.7 * (1 + close * 0.8) + (active ? close * 1.15 : 0);
     g.position.x = MathUtils.damp(g.position.x, x, 7, dt);
     g.position.y = MathUtils.damp(
       g.position.y,
@@ -223,12 +222,14 @@ function Product({
   });
   return (
     <group ref={group} scale={0.4}>
-      <DeviceModel
-        index={index}
-        active={active}
-        progress={progress}
-        inspect={inspect}
-      />
+      {(!mobile || active) && (
+        <ProductModel
+          index={index}
+          active={active}
+          progress={progress}
+          inspect={inspect}
+        />
+      )}
     </group>
   );
 }
@@ -260,7 +261,7 @@ function CameraRig({
   });
   return null;
 }
-function Lifecycle({
+export function Lifecycle({
   onReady,
   onFailure,
 }: {
@@ -280,7 +281,7 @@ function Lifecycle({
   }, [gl, onFailure]);
   return null;
 }
-function SoftwareRendererQuality() {
+export function SoftwareRendererQuality() {
   const { gl, setDpr, size } = useThree();
   useEffect(() => {
     const context = gl.getContext();

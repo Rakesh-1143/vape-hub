@@ -17,3 +17,7 @@ Reviewed 2026-10-04: all four pages of the supplied Google Drive PDF, **Ciao Ene
 Sound, infinite-scroll easter eggs, six invented product states, beverage ingredient comparisons, and unrelated product claims are not added. A real-device performance review and Core Web Vitals measurement are outstanding. Actual ecommerce requirements, POS/payment decisions and approved product assets are still needed.
 
 Source supplied by user: https://drive.google.com/file/d/1AfRXP38CnZ5QEcEniQTz8urzBSWxT10K/view
+
+## Current implementation update (2026-10-05)
+
+The earlier implementation notes describe prior revisions. The current hero uses a 1100px desktop pin plus a separate 850px category-story pin; widths below 1024px and reduced motion use no pins. Motion handles HTML reveals, selection copy and the FAQ; GSAP owns scrub coordination; R3F handles original concept graphics. The expanded scene map and accessibility/performance boundaries are in homepage-brief.md. The animation guide has been reviewed; it is not evidence of approved commerce requirements.

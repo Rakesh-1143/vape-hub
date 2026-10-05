@@ -1,8 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { HomePage } from "../src/features/home/HomePage";
 describe("homepage shopping boundaries and interactions", () => {
+  beforeEach(() =>
+    localStorage.setItem("vape-hub:adult-entry:v1", "confirmed"),
+  );
   it("supports keyboard device selection and wraps without mismatched labels", async () => {
     const user = userEvent.setup();
     render(<HomePage />);
@@ -41,7 +44,7 @@ describe("homepage shopping boundaries and interactions", () => {
   it("reveals selected category guidance and exposes actual contact destinations", async () => {
     const user = userEvent.setup();
     render(<HomePage />);
-    await user.click(screen.getByRole("link", { name: /E-liquids Explore/ }));
+    await user.click(screen.getByRole("link", { name: /E-Liquids.*Explore/i }));
     expect(document.getElementById("category-liquids")).toBeVisible();
     expect(
       screen.getByRole("link", { name: "Call the store" }),
