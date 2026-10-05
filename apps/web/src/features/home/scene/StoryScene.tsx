@@ -1,5 +1,5 @@
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useMemo, useRef, useState, type MutableRefObject } from "react";
+import { useRef, type MutableRefObject } from "react";
 import {
   ACESFilmicToneMapping,
   Color,
@@ -12,9 +12,9 @@ import {
   SoftboxEnvironment,
   Lifecycle,
   SoftwareRendererQuality,
-  ShaderWarmup,
 } from "./DeviceScene";
 import { DeviceModel } from "./DeviceModel";
+import { CategoryBottle } from "./CategoryBottle";
 function StoryObjects({ progress }: { progress: MutableRefObject<number> }) {
   const objects = useRef<Group>(null),
     zero = useRef(0),
@@ -60,39 +60,7 @@ function StoryObjects({ progress }: { progress: MutableRefObject<number> }) {
           />
         </group>
         <group>
-          <mesh>
-            <cylinderGeometry args={[0.6, 0.6, 2.25, 32]} />
-            <meshPhysicalMaterial
-              color="#9b684d"
-              metalness={0.35}
-              roughness={0.22}
-              clearcoat={1}
-            />
-          </mesh>
-          <mesh position={[0, 1.42, 0]}>
-            <cylinderGeometry args={[0.43, 0.43, 0.62, 32]} />
-            <meshPhysicalMaterial
-              color="#1e2630"
-              roughness={0.25}
-              metalness={0.45}
-            />
-          </mesh>
-          <mesh position={[0, -0.1, 0.015]}>
-            <cylinderGeometry args={[0.607, 0.607, 1.2, 32, 1, true]} />
-            <meshStandardMaterial
-              color="#172130"
-              roughness={0.35}
-              metalness={0.2}
-            />
-          </mesh>
-          <mesh position={[0, -0.1, 0.61]}>
-            <planeGeometry args={[0.64, 0.56]} />
-            <meshStandardMaterial
-              color="#d6a27b"
-              metalness={0.6}
-              roughness={0.3}
-            />
-          </mesh>
+          <CategoryBottle />
         </group>
         <group>
           {[-0.38, 0.38].map((x, index) => (
@@ -142,13 +110,11 @@ export default function StoryScene({
   onReady: () => void;
   onFailure: () => void;
 }) {
-  const [warmed, setWarmed] = useState(false);
-  const complete = useMemo(() => () => setWarmed(true), []);
   return (
     <Canvas
       camera={{ position: [0, 0.1, 8.8], fov: 33 }}
       dpr={[1, mobile ? 1 : 1.4]}
-      frameloop={running && warmed ? "always" : "never"}
+      frameloop={running ? "always" : "never"}
       gl={{ alpha: true, antialias: true }}
       onCreated={({ gl }) => {
         gl.toneMapping = ACESFilmicToneMapping;
@@ -161,7 +127,6 @@ export default function StoryScene({
       <ambientLight intensity={0.3} />
       <directionalLight position={[-3, 4, 4]} intensity={2.5} />
       <StoryObjects progress={progress} />
-      <ShaderWarmup onComplete={complete} onFailure={onFailure} />
       <Lifecycle onReady={onReady} onFailure={onFailure} />
     </Canvas>
   );
