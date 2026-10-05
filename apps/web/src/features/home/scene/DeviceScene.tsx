@@ -3,7 +3,6 @@ import {
   useEffect,
   useMemo,
   useRef,
-  useState,
   type MutableRefObject,
 } from "react";
 import gsap from "gsap";
