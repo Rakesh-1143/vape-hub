@@ -1,6 +1,6 @@
 # Project status
 
-Updated: 2026-10-05. Phase: repository foundation and expanded animated homepage. Current revision details are recorded below; earlier ledgers are historical.
+Updated: 2026-10-06. Phase: repository foundation and expanded animated homepage, published to the authorized GitHub Pages preview. Current revision details are recorded below; earlier ledgers are historical.
 
 ## Implemented
 - Current revision: adult entry, expanded product/store story, six category studies, two coordinated 3D scenes, accessible animated FAQ, centralized store facts and metadata. Original metallic concept models retain inspection, rotate and ambient-pause controls. Current validation is recorded in the expanded-homepage release ledger below; earlier ledgers remain historical evidence.
@@ -9,7 +9,7 @@ Updated: 2026-10-05. Phase: repository foundation and expanded animated homepage
 - Lazy scene, SVG posters, reduced-motion presentation, offscreen/hidden-tab pausing, renderer failure boundary, and graphics-context cleanup.
 - Responsive header/mobile menu; six category presentations; local store illustration; pickup explanation; accessible animated FAQ; phone, email, directions and section links.
 - Local licensed fonts, bundled license notices, semantic HTML controls, focus styles, and mobile control sizes.
-- Shared CLAUDE.md, setup instructions, architecture/requirements/design/workflow/decision documentation, CI, four unit behavior tests and twelve desktop/mobile browser scenarios.
+- Shared CLAUDE.md, setup instructions, architecture/requirements/design/workflow/decision documentation, CI, six unit behavior tests and twenty-one desktop/mobile browser checks, plus one intentional duplicate matrix skip.
 
 ## Original delivery validation ledger (historical)
 Executed locally using bundled Node 24.19.0 after a clean dependency installation:
@@ -37,7 +37,7 @@ Browser inspection confirmed live rounded 3D at desktop and 390×844, and the ob
 - No SSR/prerendering; evaluate SEO requirements before public launch.
 - Confirm store contact data and copy with the client before deployment.
 
-## Next useful step
+## Original publication notes (historical)
 GitHub Pages preview requested after repository upload. Added a dedicated Pages workflow and base-path-aware poster URLs. Enabling Pages returned HTTP 422: the current GitHub plan does not support Pages for this private repository. The user approved public visibility; repository is now public and Pages is enabled. Pages-mode production build, lint and all four unit tests passed locally. GitHub Pages workflow 37206086291 completed successfully. https://rakesh-1143.github.io/vape-hub/ returned HTTP 200; application JS, lazy 3D chunk and poster image also returned HTTP 200. GitHub ran typecheck, lint, four unit tests and production build successfully. Public preview is frontend-only.
 
 Obtain actual commerce requirements and approved product photos/dimensions/artwork. Decide payment-at-pickup versus approved online payment, POS/inventory integration, launch date and AWS budget. Then implement catalog/API contracts and staff inventory workflows before checkout.
@@ -98,3 +98,13 @@ Final Frontend checks run 37353405111 on 96e556b3620183b835425d3bf13e154655d0337
 Fresh development startup: Vite 7.3.6 ready on 127.0.0.1:5176 in 3.7 seconds; homepage, App and AgeGate endpoints returned HTTP 200. Local production review reported zero page errors and no 390×844 horizontal overflow. Desktop/tablet/mobile visual inspection and the 320–1920px automated matrix are complete. Physical devices remain unverified. Added .gitattributes to preserve LF checkout for cross-platform formatting.
 
 Publishing target: the owner-authorized public GitHub Pages preview. Main deployment and live response verification will be recorded after completion. Next useful step is owner review of the live direction and confirmed hours/assets/policies, followed by physical-device performance profiling and the agreed catalog/API phase.
+
+## Published preview verified — 2026-10-06
+
+Published source commit 1ef0aca28a48604f0db5de03d2ea5dd7fcdcf486 to main. GitHub Pages deployment run 37354047104 completed successfully. Main Frontend checks run 37354047072 also passed clean installation (0 vulnerabilities), type checking, lint, Prettier, all 6 unit tests, production build, and all 21 browser cases (one intentional duplicate matrix skip).
+
+Live verification at https://rakesh-1143.github.io/vape-hub/?preview=home-story-v4 confirmed the expanded-homepage entry/store markers and HTTP 200 for the page, application JavaScript, stylesheet, DeviceScene, StoryScene and plum poster. Actual deployed desktop and 390×844 Chromium review completed with zero page errors and no mobile horizontal overflow. Inspected deployed hero, category bottle/story, store and mobile screenshots. The final review link uses a fresh preview query to avoid the earlier studio-v3 page cache. Screenshots and logs remain in ignored artifacts; CI artifacts are available on the linked runs. This follow-up changes documentation only; homepage source matches the verified deployment.
+
+The earlier interruption came from an automatic-approval usage-limit failure during live verification, not from a deployment failure. The continued run completed that verification.
+
+Next useful step: owner review of the preview, approved models/photos/logo/social artwork, confirmed hours and policies, followed by physical-device profiling. Current lab performance is 67; the substantial 3D startup/payload remains a launch limitation. Commerce APIs, PostgreSQL, authentication, inventory, checkout/payment, purchase identity checks and AWS deployment remain later phases. No production performance or business-requirements approval is inferred from this preview.
